@@ -1,11 +1,13 @@
+#![allow(dead_code)]
 use super::cards::{
     Card,
     Rank::{self, *},
-    Suit::*,
 };
+
 use crate::lib::poker::PokerCombo::{FourOfAKind, ThreeOfAKind};
 use std::collections::HashMap;
-#[allow(dead_code)]
+
+
 pub struct Hand([Card; 5]);
 pub enum PokerCombo {
     Top(Rank),

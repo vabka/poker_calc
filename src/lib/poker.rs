@@ -5,7 +5,7 @@ use super::cards::{
 };
 use crate::lib::poker::PokerCombo::{FourOfAKind, ThreeOfAKind};
 use std::collections::HashMap;
-
+#[allow(dead_code)]
 pub struct Hand([Card; 5]);
 pub enum PokerCombo {
     Top(Rank),
@@ -30,6 +30,7 @@ impl Hand {
         for rank in self.cards().iter().map(|x| x.rank()) {
             let count = map.get(&rank);
             if let Some(count) = count {
+                let count = *count;
                 map.insert(rank, count + 1);
             } else {
                 map.insert(rank, 0);
@@ -79,15 +80,8 @@ impl Hand {
     }
 
     fn flush_rank(&self) -> Option<Rank> {
-        //TODO кажется, можно тут аккуратнее определить
-        let suits = self.cards().iter().map(|x| x.suit());
-        let bit_mask = suits.fold(0, |acc, x| match x {
-            Spades => acc | 1,
-            Hearts => acc | 2,
-            Diamonds => acc | 4,
-            Clubs => acc | 8,
-        });
-        let is_flush = bit_mask == 1 || bit_mask == 2 || bit_mask == 4 || bit_mask == 8;
+        let suit = self.cards()[0].suit();
+        let is_flush = self.0.iter().skip(1).map(|x| x.suit()).all(|x| x == suit);
         if is_flush {
             Some(self.top_rank())
         } else {

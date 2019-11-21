@@ -1,5 +1,6 @@
+#![allow(dead_code)]
 use std::cmp::Ordering;
-use std::fmt::{Display, Error, Formatter, Write};
+use std::fmt::{Display, Error, Formatter};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, Ord, PartialOrd)]
 pub enum Rank {
@@ -20,7 +21,7 @@ pub enum Rank {
 
 impl Rank {
     #[inline]
-    fn get_symbol(&self) -> &'static str {
+    fn get_symbol(self) -> &'static str {
         use Rank::*;
         match self {
             Two => "2",
@@ -55,7 +56,7 @@ pub enum Suit {
 }
 impl Suit {
     #[inline]
-    fn get_symbol(&self) -> &'static str {
+    fn get_symbol(self) -> &'static str {
         use Suit::*;
         match self {
             Spades => "♠",
@@ -75,11 +76,11 @@ impl Display for Suit {
 pub struct Card(Rank, Suit);
 impl Card {
     #[inline]
-    pub const fn rank(&self) -> Rank {
+    pub const fn rank(self) -> Rank {
         self.0
     }
     #[inline]
-    pub const fn suit(&self) -> Suit {
+    pub const fn suit(self) -> Suit {
         self.1
     }
 }

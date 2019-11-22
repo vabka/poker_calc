@@ -5,7 +5,7 @@ use super::deck::{
 };
 
 use std::collections::HashMap;
-
+/// 5 Карт
 pub struct Hand([Card; 5]);
 
 use core::fmt::{self, Display, Formatter};
@@ -151,9 +151,11 @@ impl Hand {
         self.pair_rank()?;
         Some(triplet_rank)
     }
-    pub fn is_flush(&self) -> bool {
+    
+    fn is_flush(&self) -> bool {
         self.flush_rank().is_some()
     }
+    ///Получить текущее комбо в руке
     pub fn get_combo(&self) -> PokerCombo {
         if let Some(straight_rank) = self.straight_rank() {
             if self.is_flush() {

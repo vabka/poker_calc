@@ -109,7 +109,7 @@ impl Rank {
     ///### Конструктор для карты
     /// ```
     /// use Rank::*;
-    /// use Suit::*; 
+    /// use Suit::*;
     /// let card = Ace.of(Spades);
     /// assert_eq!(card.suit(), Spades);
     /// assert_eq!(card.rank(), Ace);
@@ -120,11 +120,20 @@ impl Rank {
     }
 }
 
+impl Rank {
+    fn enumerate() -> &'static [Rank; 13] {
+        use Rank::*;
+        &[
+            Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace,
+        ]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Rank::*;
     use super::Suit::*;
-
+    use super::*;
     #[test]
     fn equality_of_cards() {
         assert!(Ace > King);
@@ -132,5 +141,12 @@ mod tests {
         assert_eq!(Ace.of(Spades), Ace.of(Spades));
         assert_ne!(Ace.of(Spades), Ace.of(Hearts));
         assert_ne!(Ace.of(Spades), King.of(Spades));
+    }
+
+    #[test]
+    fn same_addr() {
+        let a = Rank::enumerate().as_ptr();
+        let b = Rank::enumerate().as_ptr();
+        assert!(a == b);
     }
 }

@@ -44,10 +44,10 @@ impl Hand {
         Hand(cards)
     }
     #[inline]
-    fn cards(&self) -> &[Card; 5] {
+    pub fn cards(&self) -> &[Card; 5] {
         &self.0
     }
-    fn count_cards(&self) -> HashMap<Rank, u8> {
+    fn count_ranks(&self) -> HashMap<Rank, u8> {
         let mut map: HashMap<Rank, u8> = HashMap::new();
         for rank in self.cards().iter().map(|x| x.rank()) {
             let count = map.get(&rank);
@@ -62,7 +62,7 @@ impl Hand {
     }
 
     fn get_card_groups(&self, cards_count_in_group: u8) -> Vec<Rank> {
-        let map = self.count_cards();
+        let map = self.count_ranks();
         let grs: Vec<_> = map
             .iter()
             .filter(|&(_, cnt)| *cnt == cards_count_in_group)
@@ -77,7 +77,7 @@ impl Hand {
 
     fn straight_rank(&self) -> Option<Rank> {
         let cards = self.cards();
-        let hand :Vec<_>= cards.iter().map(|x|x.rank()).collect();
+        let hand: Vec<_> = cards.iter().map(|x| x.rank()).collect();
         match hand.as_slice() {
             [Two, Three, Four, Five, Ace] => Some(Five),
             [Two, Three, Four, Five, Six] => Some(Six),
@@ -151,7 +151,6 @@ impl Hand {
         self.pair_rank()?;
         Some(triplet_rank)
     }
-    
     fn is_flush(&self) -> bool {
         self.flush_rank().is_some()
     }

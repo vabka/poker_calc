@@ -1,9 +1,5 @@
 {
-    "editor.fontFamily": "'Fira code', Consolas, 'Courier New', monospace",
-    "rust-client.enableMultiProjectSetup": true,
-    "rust-client.updateOnStartup": true,
     "rust.all_features": true,
     "rust.clippy_preference": "on",
-    "rust.actionOnSave": "clippy",
-    "rust.mode": "rls"
+    "rust.actionOnSave": "clippy"
 }

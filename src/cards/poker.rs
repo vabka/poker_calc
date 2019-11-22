@@ -1,14 +1,28 @@
 #![allow(dead_code)]
-use super::cards::{
+use super::deck::{
     Card,
     Rank::{self, *},
 };
 
-use crate::lib::poker::PokerCombo::{FourOfAKind, ThreeOfAKind};
 use std::collections::HashMap;
 
-
 pub struct Hand([Card; 5]);
+
+use core::fmt::{self, Display, Formatter};
+impl Display for Hand {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let mut cards = self.cards().iter();
+        if let Some(card) = cards.next() {
+            card.fmt(f)?;
+            for card in cards {
+                f.write_str(" ")?;
+                card.fmt(f)?;
+            }
+        };
+        Ok(())
+    }
+}
+
 pub enum PokerCombo {
     Top(Rank),
     Pair(Rank),
@@ -23,6 +37,12 @@ pub enum PokerCombo {
 
 use PokerCombo::*;
 impl Hand {
+    #[inline]
+    pub fn new(cards: [Card; 5]) -> Hand {
+        let mut cards = cards;
+        cards.sort();
+        Hand(cards)
+    }
     #[inline]
     fn cards(&self) -> &[Card; 5] {
         &self.0
@@ -56,17 +76,9 @@ impl Hand {
     }
 
     fn straight_rank(&self) -> Option<Rank> {
-        //TODO можно лучше
         let cards = self.cards();
-        let mut hand = [
-            cards[0].rank(),
-            cards[1].rank(),
-            cards[2].rank(),
-            cards[3].rank(),
-            cards[4].rank(),
-        ];
-        hand.sort();
-        match hand {
+        let hand :Vec<_>= cards.iter().map(|x|x.rank()).collect();
+        match hand.as_slice() {
             [Two, Three, Four, Five, Ace] => Some(Five),
             [Two, Three, Four, Five, Six] => Some(Six),
             [Three, Four, Five, Six, Seven] => Some(Seven),
@@ -82,8 +94,9 @@ impl Hand {
     }
 
     fn flush_rank(&self) -> Option<Rank> {
-        let suit = self.cards()[0].suit();
-        let is_flush = self.0.iter().skip(1).map(|x| x.suit()).all(|x| x == suit);
+        let cards = self.cards();
+        let suit = cards[0].suit();
+        let is_flush = cards.iter().skip(1).map(|x| x.suit()).all(|x| x == suit);
         if is_flush {
             Some(self.top_rank())
         } else {
@@ -93,8 +106,8 @@ impl Hand {
 
     fn four_of_a_kind_rank(&self) -> Option<Rank> {
         let quads = self.get_card_groups(4);
-        if let [quad_rank] = *quads.as_slice() {
-            Some(quad_rank)
+        if let [quad_rank] = quads.as_slice() {
+            Some(*quad_rank)
         } else {
             None
         }
@@ -102,8 +115,8 @@ impl Hand {
 
     fn three_of_a_kind_rank(&self) -> Option<Rank> {
         let triplets = self.get_card_groups(3);
-        if let [triplet_rank] = *triplets.as_slice() {
-            Some(triplet_rank)
+        if let [triplet_rank] = triplets.as_slice() {
+            Some(*triplet_rank)
         } else {
             None
         }

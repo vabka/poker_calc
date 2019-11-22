@@ -58,6 +58,7 @@ impl Suit {
     #[inline]
     fn get_symbol(self) -> &'static str {
         use Suit::*;
+        // ♧ ♤ ♡ ♢
         match self {
             Spades => "♠",
             Hearts => "♥",
@@ -91,12 +92,17 @@ impl Display for Card {
         self.suit().fmt(f)
     }
 }
-
 impl PartialOrd for Card {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.0.partial_cmp(&other.0)
     }
 }
+impl Ord for Card {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.0.cmp(&other.0)
+    }
+}
+
 impl Rank {
     #[inline]
     pub const fn of(self, suit: Suit) -> Card {

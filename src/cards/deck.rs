@@ -127,7 +127,8 @@ mod tests {
 
     #[test]
     fn equality_of_cards() {
-        assert!(Ace < King);
+        assert!(Ace > King);
+        assert!(Ace.of(Spades) > King.of(Spades));
         assert_eq!(Ace.of(Spades), Ace.of(Spades));
         assert_ne!(Ace.of(Spades), Ace.of(Hearts));
         assert_ne!(Ace.of(Spades), King.of(Spades));

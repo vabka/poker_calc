@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use std::cmp::Ordering;
 use std::fmt::{Display, Error, Formatter};
-
+/// Ранг/Цена/Старшинство карты
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, Ord, PartialOrd)]
 pub enum Rank {
     Two,
@@ -46,7 +46,7 @@ impl Display for Rank {
         f.write_str(self.get_symbol())
     }
 }
-
+///Масть карты
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum Suit {
     Spades,
@@ -72,14 +72,16 @@ impl Display for Suit {
         f.write_str(self.get_symbol())
     }
 }
-
+///Карта представляет из себя ранг и масть
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub struct Card(Rank, Suit);
 impl Card {
+    ///Ранг карты
     #[inline]
     pub const fn rank(self) -> Rank {
         self.0
     }
+    ///Масть карты
     #[inline]
     pub const fn suit(self) -> Suit {
         self.1
@@ -104,6 +106,14 @@ impl Ord for Card {
 }
 
 impl Rank {
+    ///### Конструктор для карты
+    /// ```
+    /// use Rank::*;
+    /// use Suit::*; 
+    /// let card = Ace.of(Spades);
+    /// assert_eq!(card.suit(), Spades);
+    /// assert_eq!(card.rank(), Ace);
+    /// ```
     #[inline]
     pub const fn of(self, suit: Suit) -> Card {
         Card(self, suit)

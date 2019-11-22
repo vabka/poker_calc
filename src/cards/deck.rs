@@ -129,6 +129,15 @@ impl Rank {
     }
 }
 
+impl Suit {
+    fn enumerate() -> &'static [Suit; 4] {
+        use Suit::*;
+        &[
+            Spades, Clubs, Diamonds, Hearts
+        ]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Rank::*;

@@ -109,7 +109,7 @@ impl Rank {
     ///### Конструктор для карты
     /// ```
     /// use Rank::*;
-    /// use Suit::*; 
+    /// use Suit::*;
     /// let card = Ace.of(Spades);
     /// assert_eq!(card.suit(), Spades);
     /// assert_eq!(card.rank(), Ace);
@@ -132,5 +132,24 @@ mod tests {
         assert_eq!(Ace.of(Spades), Ace.of(Spades));
         assert_ne!(Ace.of(Spades), Ace.of(Hearts));
         assert_ne!(Ace.of(Spades), King.of(Spades));
+    }
+}
+
+impl Suit {
+    fn enumerate() -> &'static [Suit] {
+        &[Suit::Spades, Suit::Hearts, Suit::Clubs, Suit::Diamonds]
+    }
+}
+
+#[cfg(test)]
+mod unsafe_tests {
+    #[test]
+    fn get_len_u32() {
+        let mut v = vec![1u32,2,3,4,5];
+        for i in 0u32..1024{
+            v.push(i);
+        }
+        let len = v.len() as u8;
+        assert!(len == 5);
     }
 }

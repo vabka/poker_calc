@@ -120,11 +120,29 @@ impl Rank {
     }
 }
 
+impl Rank {
+    fn enumerate() -> &'static [Rank; 13] {
+        use Rank::*;
+        &[
+            Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace,
+        ]
+    }
+}
+
+impl Suit {
+    fn enumerate() -> &'static [Suit; 4] {
+        use Suit::*;
+        &[
+            Spades, Clubs, Diamonds, Hearts
+        ]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Rank::*;
     use super::Suit::*;
-
+    use super::*;
     #[test]
     fn equality_of_cards() {
         assert!(Ace > King);
@@ -133,13 +151,17 @@ mod tests {
         assert_ne!(Ace.of(Spades), Ace.of(Hearts));
         assert_ne!(Ace.of(Spades), King.of(Spades));
     }
+    
+
+    #[test]
+    fn same_addr() {
+        let a = Rank::enumerate().as_ptr();
+        let b = Rank::enumerate().as_ptr();
+        assert!(a == b);
+    }
+
 }
 
-impl Suit {
-    fn enumerate() -> &'static [Suit] {
-        &[Suit::Spades, Suit::Hearts, Suit::Clubs, Suit::Diamonds]
-    }
-}
 
 #[cfg(test)]
 mod unsafe_tests {
@@ -153,3 +175,4 @@ mod unsafe_tests {
         assert!(len == 5);
     }
 }
+

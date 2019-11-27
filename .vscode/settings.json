@@ -1,3 +1,5 @@
 {
-    "rust.actionOnSave": "clippy"
+    "rust-analyzer.displayInlayHints": true,
+    "rust-analyzer.enableEnhancedTyping": true,
+    "rust-analyzer.highlightingOn": true,
 }

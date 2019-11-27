@@ -171,6 +171,7 @@ mod tests {
         assert_ne!(Ace.of(Spades), Ace.of(Hearts));
         assert_ne!(Ace.of(Spades), King.of(Spades));
     }
+    
 
     #[test]
     fn same_addr() {
